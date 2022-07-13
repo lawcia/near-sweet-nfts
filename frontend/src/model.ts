@@ -15,8 +15,7 @@ interface TraitData {
 }
 
 interface GalleryItem {
-    id?: string;
-    isMinted?: boolean;
+    id: string;
     metaData: MetaData
 }
 

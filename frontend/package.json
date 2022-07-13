@@ -10,6 +10,7 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "bn.js": "^5.2.1",
     "buffer": "^6.0.3",
     "near-api-js": "^0.45.1",
     "react": "^18.1.0",
@@ -42,5 +43,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/bn.js": "^5.1.0"
+  }
 }

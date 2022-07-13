@@ -4,21 +4,18 @@ import { Contract } from "near-api-js";
 
 import { NearContext } from "./NearProvider";
 
-import { logger } from "../utils";
+import { getGalleryData, logger } from "../utils";
 
 import { NFT_CONTRACT } from "./config";
 
+import { BN } from "bn.js";
+
 interface NFTContract extends Contract {
-  get_name: () => Promise<any>;
-  set_name: (args: { name: string }) => Promise<any>;
-  delete: () => Promise<any>;
-  greet: () => Promise<any>;
+  nft_tokens_for_owner: (args: { account_id: string }) => Promise<any>;
+  nft_mint: (args: any, gas: any, bn: any) => Promise<any>;
 }
 
 const useNFTContract = () => {
-  const [greeting, setGreeting] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [contractBackup, setContractBackup] = useState<NFTContract>();
   const context = useContext(NearContext);
@@ -40,16 +37,14 @@ const useNFTContract = () => {
   const login = () => {
     if (context === null) {
       logger("Could not login user");
-      setIsError(true);
       return;
     }
     logger("Logging in user");
     context.walletConnection.requestSignIn(NFT_CONTRACT);
     try {
       initContract();
-      setIsError(false);
     } catch {
-      setIsError(true);
+      logger("Could not init contract")
     }
   };
 
@@ -65,8 +60,8 @@ const useNFTContract = () => {
         context.walletConnection.account(),
         NFT_CONTRACT,
         {
-          viewMethods: [],
-          changeMethods: ["set_name", "delete", "get_name", "greet"],
+          viewMethods: ["nft_tokens_for_owner"],
+          changeMethods: ["nft_mint"],
         }
       ) as NFTContract;
 
@@ -77,31 +72,34 @@ const useNFTContract = () => {
     return contract;
   };
 
-  const getGreeting = (name: string) => {
-    logger("Get greeting");
-    setIsLoading(true);
-    setIsError(false);
-
+  const getNFTs = () => {
+    const id = getUser()
+    const galleryData = getGalleryData(id)
+    logger("Started getting nfts by account id");
     const contract = initContract();
+    logger("invoking contract");
+    return Promise.all([contract.nft_tokens_for_owner({ account_id: id }), galleryData]);
+  };
 
-    logger("Invoking contract");
-
+  const mintNFT = (accountId: string, tokenId: string, metadata: any) => {
+    logger("Started minting the nft");
+    const contract = initContract();
+    logger("invoking contract");
     contract
-      .set_name({ name })
-      .then(() => {
-        logger("Setting name");
-        return contract.greet();
+      .nft_mint(
+        {
+          token_id: tokenId,
+          metadata,
+          receiver_id: accountId,
+        },
+        300000000000000,
+        new BN("1000000000000000000000000")
+      )
+      .then((res) => {
+        console.log(res);
       })
-      .then((result) => {
-        logger("Getting greeting");
-        setGreeting(result);
-        setIsError(false);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        setIsError(true);
-        logger("An error occured");
+      .catch((error) => {
+        console.error(error);
       });
   };
 
@@ -114,10 +112,8 @@ const useNFTContract = () => {
     isAuthenticated,
     logout,
     login,
-    getGreeting,
-    greeting,
-    isError,
-    isLoading,
+    getNFTs,
+    mintNFT,
     getUser,
   };
 };

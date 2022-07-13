@@ -79,7 +79,7 @@ const metaDataConfig: {
 ];
 
 const getId = (accountId: string, title: string) => {
-  return `${accountId}-${title.split(" ").join("-").toLocaleLowerCase()}`;
+  return `${accountId}_${title.split(" ").join("_").toLocaleLowerCase()}`;
 };
 
 const getRarityLog = () => {
@@ -129,11 +129,10 @@ export const getGalleryData = (accountId: string): GalleryItem[] => {
   const galleryData = metaDataConfig.map((config) => {
     return {
       id: getId(accountId, config.title),
-      isMinted: true,
       metaData: {
         title: config.title,
         description: config.description,
-        src: config.src,
+        src: process.env.PUBLIC_URL + config.src,
         alt: config.title,
         extra: {
           traits: getTraits(config.traits, rarityLog),
