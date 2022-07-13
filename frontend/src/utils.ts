@@ -1,12 +1,5 @@
 import { TRAIT, SHAPE, COLOUR, FOOD } from "./constants";
 import { GalleryItem } from "./model";
-import circleBabyPinkIceCream from "./images/circle_baby_pink_ice_cream.png"
-import circleDarkPinkCandy from "./images/circle_dark_pink_candy.png"
-import circleDullPinkCookie from "./images/circle_dull_pink_cookie.png"
-import circleLightPinkCookie from "./images/circle_light_pink_cookie.png"
-import squareBabyPinkIceCream from "./images/square_baby_pink_ice_cream.png"
-import squareBrightPinkIceCream from "./images/square_bright_pink_ice_cream.png"
-
 
 const metaDataConfig: {
   title: string;
@@ -19,7 +12,7 @@ const metaDataConfig: {
   {
     title: "Graceful Ice Cream",
     description: "Baby Pink Graceful Ice Cream",
-    src: circleBabyPinkIceCream,
+    src: "https://firebasestorage.googleapis.com/v0/b/intwomensday-92ac2.appspot.com/o/circle_baby_pink_ice_cream.png?alt=media",
     traits: {
       [TRAIT.SHAPE]: SHAPE.CIRCLE,
       [TRAIT.COLOUR]: COLOUR.BABY_PINK,
@@ -29,7 +22,7 @@ const metaDataConfig: {
   {
     title: "Upbeat Candy",
     description: "Dark Pink Upbeat Candy",
-    src: circleDarkPinkCandy,
+    src: "https://firebasestorage.googleapis.com/v0/b/intwomensday-92ac2.appspot.com/o/circle_dark_pink_candy.png?alt=media",
     traits: {
       [TRAIT.SHAPE]: SHAPE.CIRCLE,
       [TRAIT.COLOUR]: COLOUR.DARK_PINK,
@@ -39,7 +32,7 @@ const metaDataConfig: {
   {
     title: "Sparkling Cookie",
     description: "Dull Pink Sparkling Cookie",
-    src: circleDullPinkCookie,
+    src: "https://firebasestorage.googleapis.com/v0/b/intwomensday-92ac2.appspot.com/o/circle_dull_pink_cookie.png?alt=media",
     traits: {
       [TRAIT.SHAPE]: SHAPE.CIRCLE,
       [TRAIT.COLOUR]: COLOUR.DULL_PINK,
@@ -49,7 +42,7 @@ const metaDataConfig: {
   {
     title: "Mad Cookie",
     description: "Mad Light Pink Cookie",
-    src: circleLightPinkCookie,
+    src: "https://firebasestorage.googleapis.com/v0/b/intwomensday-92ac2.appspot.com/o/circle_light_pink_cookie.png?alt=media",
     traits: {
       [TRAIT.SHAPE]: SHAPE.CIRCLE,
       [TRAIT.COLOUR]: COLOUR.LIGHT_PINK,
@@ -59,7 +52,7 @@ const metaDataConfig: {
   {
     title: "Serious Ice Cream",
     description: "Serious Baby Pink Ice Cream",
-    src: squareBabyPinkIceCream,
+    src: "https://firebasestorage.googleapis.com/v0/b/intwomensday-92ac2.appspot.com/o/sqaure_baby_pink_ice_cream.png?alt=media",
     traits: {
       [TRAIT.SHAPE]: SHAPE.SQUARE,
       [TRAIT.COLOUR]: COLOUR.BABY_PINK,
@@ -69,7 +62,7 @@ const metaDataConfig: {
   {
     title: "Sulky Ice Cream",
     description: "Sulky Bright Pink Ice Cream",
-    src: squareBrightPinkIceCream,
+    src: "https://firebasestorage.googleapis.com/v0/b/intwomensday-92ac2.appspot.com/o/sqaure_bright_pink_ice_cream.png?alt=media",
     traits: {
       [TRAIT.SHAPE]: SHAPE.SQUARE,
       [TRAIT.COLOUR]: COLOUR.BRIGHT_PINK,
@@ -132,7 +125,7 @@ export const getGalleryData = (accountId: string): GalleryItem[] => {
       metaData: {
         title: config.title,
         description: config.description,
-        src: process.env.PUBLIC_URL + config.src,
+        src: config.src,
         alt: config.title,
         extra: {
           traits: getTraits(config.traits, rarityLog),

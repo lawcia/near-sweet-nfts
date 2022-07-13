@@ -15,7 +15,7 @@ const Gallery: FC = () => {
   const accountId = getUser();
 
   useEffect(() => {
-    setError("")
+    setError("");
     getNFTs()
       .then(([nfts, galleryData]) => {
         const log: Record<string, boolean> = {};
@@ -24,7 +24,7 @@ const Gallery: FC = () => {
         });
         setNftsForUser(log);
         setData(galleryData);
-        setError("")
+        setError("");
       })
       .catch(() => {
         setError("Could not get NFTs. Please try again latter");
@@ -33,14 +33,12 @@ const Gallery: FC = () => {
   }, [getNFTs]);
 
   const mint = (item: GalleryItem) => {
-    if (item.id) {
-      mintNFT(accountId, item.id, {
-        title: item.metaData.title,
-        description: item.metaData.description,
-        media: item.metaData.src,
-        extra: JSON.stringify(item.metaData.extra),
-      });
-    }
+    mintNFT(accountId, item.id, {
+      title: item.metaData.title,
+      description: item.metaData.description,
+      media: item.metaData.src,
+      extra: JSON.stringify(item.metaData.extra),
+    });
   };
 
   return (
