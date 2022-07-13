@@ -1,2 +1,1 @@
-# NEAR NFT Sweets
-# near-sweet-nfts
+# NEAR Sweet NFTs
